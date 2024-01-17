@@ -3,6 +3,8 @@ package pyah.bookstore;
 
 import com.github.javafaker.Faker;
 
+import java.io.*;
+
 public class Helper{
 
     public static final String PASSWORD = "Admin123!";
@@ -31,5 +33,21 @@ public class Helper{
     public static String randomStreetAddress(){
         Faker faker = new Faker();
         return faker.address().streetAddress();
+    }
+
+    public static String readDataFromFile(File file){
+        StringBuilder stringBuilder = new StringBuilder();
+        try{
+            BufferedReader bufferedReader = new BufferedReader(new FileReader(file.getPath()));
+            String line;
+            while((line = bufferedReader.readLine()) != null){
+                stringBuilder.append(line);
+                stringBuilder.append(System.lineSeparator());
+            }
+            bufferedReader.close();
+        } catch (IOException exception) {
+            exception.printStackTrace();
+        }
+        return stringBuilder.toString();
     }
 }
