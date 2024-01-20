@@ -1,0 +1,16 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "userID": {
+      "type": "string"
+    },
+    "username": {
+      "type": "string"
+    },
+    "books": {
+      "type": "array",
+      "items": {}
+    }
+  }
+}

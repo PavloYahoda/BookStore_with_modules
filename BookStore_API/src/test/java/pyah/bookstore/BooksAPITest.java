@@ -1,8 +1,10 @@
 package pyah.bookstore;
 
 
+import io.restassured.module.jsv.JsonSchemaValidator;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
+import org.hamcrest.MatcherAssert;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.jupiter.api.*;
@@ -12,6 +14,7 @@ import org.skyscreamer.jsonassert.JSONCompareMode;
 import java.io.File;
 import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
+import static pyah.bookstore.JSONConstructor.getBodyForDeleteUser;
 import static pyah.bookstore.JSONConstructor.getBooksForUser;
 
 
@@ -26,7 +29,13 @@ public class BooksAPITest extends BaseTest {
 
     // POST createUser
 
+        String pathForNewUser = "src/test/resources/newUserCreatedSchema.json";
         ExtractableResponse<Response> responseNewUser = postMethod(Helper.BASE_URL_ACCOUNT, userData, null, Helper.ENDPOINT_CREATE_USER);
+        MatcherAssert.assertThat(
+                "Validate createUser json schema",
+                responseNewUser.body().asString(),
+                JsonSchemaValidator.matchesJsonSchema(new File(pathForNewUser)));
+
         assertEquals(responseNewUser.statusCode(), 201);
         assertNotNull(responseNewUser.body().jsonPath().get("userID"));
         userData.setUserID(responseNewUser.body().jsonPath().getString("userID"));
@@ -54,19 +63,19 @@ public class BooksAPITest extends BaseTest {
 
 //        In this case we compare all fields from json.file
 
-//        JSONAssert.assertEquals(
-//                json.toString(),
-//                responseLogin.asPrettyString(),
-//                JSONCompareMode.LENIENT
-//        );
-
-
-//      In this case we ignore 'isActive' field during comparison
         JSONAssert.assertEquals(
                 json.toString(),
                 responseLogin.asPrettyString(),
-                compareSomethingExceptSomething("isActive")
+                JSONCompareMode.LENIENT
         );
+
+
+//      In this case we ignore 'isActive' field during comparison
+//        JSONAssert.assertEquals(
+//                json.toString(),
+//                responseLogin.asPrettyString(),
+//                compareSomethingExceptSomething("isActive")
+//        );
 
     // GET getUserById
 
@@ -76,6 +85,9 @@ public class BooksAPITest extends BaseTest {
         assertEquals(responseUserById.body().jsonPath().get("username"), userData.getUserName());
 
     // GET getAllBooks
+
+        String path = "src/test/resources/allBooksSchema.json";
+        assertTrue(validationJSONSchema(Helper.BASE_URL_BOOK_STORE, null, Helper.ENDPOINT_BOOKS, path));
 
         ExtractableResponse<Response> responseAllBooks = getMethod(Helper.BASE_URL_BOOK_STORE, null, Helper.ENDPOINT_BOOKS);
         assertEquals(responseAllBooks.statusCode(), 200);
@@ -109,12 +121,7 @@ public class BooksAPITest extends BaseTest {
 
     // DELETE deleteUserBook
 
-        String bodyForDeleteUser = "{\n" +
-                "  \"isbn\": \"" + userData.getAllBooks().get(0) + "\",\n" +
-                "  \"userId\": \"" + userData.getUserID() + "\"\n" +
-                "}";
-
-        ExtractableResponse<Response> responseDeleteUserBook = deleteMethodWithStringPayload(Helper.BASE_URL_BOOK_STORE, bodyForDeleteUser, userData.getToken(), Helper.ENDPOINT_BOOK);
+        ExtractableResponse<Response> responseDeleteUserBook = deleteMethodWithStringPayload(Helper.BASE_URL_BOOK_STORE, getBodyForDeleteUser(userData), userData.getToken(), Helper.ENDPOINT_BOOK);
         assertEquals(responseDeleteUserBook.statusCode(), 204);
 
     // GET isBookDeleted

@@ -72,4 +72,20 @@ public class JSONConstructor {
 
     }
 
+    public static String getBodyForDeleteUser(UserData userData){
+//        String bodyForDeleteUser = "{\n" +
+//                "  \"isbn\": \"" + userData.getAllBooks().get(0) + "\",\n" +
+//                "  \"userId\": \"" + userData.getUserID() + "\"\n" +
+//                "}";
+
+        JSONObject deleteBook = new JSONObject();
+        try {
+            deleteBook.put("isbn", userData.getAllBooks().get(0));
+            deleteBook.put("userId", userData.getUserID());
+        }catch(Exception e){
+            e.getStackTrace();
+        }
+        return deleteBook.toString();
+    }
+
 }
