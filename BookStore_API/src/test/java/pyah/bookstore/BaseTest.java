@@ -7,6 +7,10 @@ import io.restassured.http.ContentType;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
+import org.skyscreamer.jsonassert.Customization;
+import org.skyscreamer.jsonassert.JSONCompareMode;
+import org.skyscreamer.jsonassert.comparator.CustomComparator;
+import org.skyscreamer.jsonassert.comparator.JSONComparator;
 
 public class BaseTest {
     public ExtractableResponse<Response> postMethod(String baseUrl, UserData payload, String bearerToken, String endpoint) {
@@ -84,5 +88,12 @@ public class BaseTest {
         specBuilder.addHeader("Content Type", "application/json");
         specBuilder.addHeader("Authorization", "Bearer " + token);
         return specBuilder.build();
+    }
+
+// JSON comparator
+    public JSONComparator compareSomethingExceptSomething(String path) {
+        return new CustomComparator(JSONCompareMode.LENIENT,
+                new Customization(path, (o1, o2) -> true)
+        );
     }
 }

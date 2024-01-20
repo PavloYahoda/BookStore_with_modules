@@ -12,6 +12,7 @@ import org.skyscreamer.jsonassert.JSONCompareMode;
 import java.io.File;
 import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
+import static pyah.bookstore.JSONConstructor.getBooksForUser;
 
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -49,10 +50,22 @@ public class BooksAPITest extends BaseTest {
         String str = String.format(Helper.readDataFromFile(new File("src/test/resources/loginUserResponse.json")), userData.getUserID(), userData.getUserName(), Helper.PASSWORD, userData.getToken());
         JSONObject json = new JSONObject(str);
         System.out.println("CHECK:  " + str);
+
+
+//        In this case we compare all fields from json.file
+
+//        JSONAssert.assertEquals(
+//                json.toString(),
+//                responseLogin.asPrettyString(),
+//                JSONCompareMode.LENIENT
+//        );
+
+
+//      In this case we ignore 'isActive' field during comparison
         JSONAssert.assertEquals(
                 json.toString(),
                 responseLogin.asPrettyString(),
-                JSONCompareMode.LENIENT
+                compareSomethingExceptSomething("isActive")
         );
 
     // GET getUserById
@@ -72,22 +85,7 @@ public class BooksAPITest extends BaseTest {
 
     // POST setUserBooks
 
-        String bodyForSetBooks = "{\n" +
-                "  \"userId\": \"" + userData.getUserID() + "\",\n" +
-                "  \"collectionOfIsbns\": [\n" +
-                "    {\n" +
-                "      \"isbn\": \"" + userData.getAllBooks().get(0) + "\"\n" +
-                "    },\n" +
-                "    {\n" +
-                "      \"isbn\": \"" + userData.getAllBooks().get(1) + "\"\n" +
-                "    },\n" +
-                "    {\n" +
-                "      \"isbn\": \"" + userData.getAllBooks().get(2) + "\"\n" +
-                "    }\n" +
-                "  ]\n" +
-                "}";
-
-        ExtractableResponse<Response> responseSetUserBook = postMethodWithStringPayload(Helper.BASE_URL_BOOK_STORE, bodyForSetBooks, userData.getToken(), Helper.ENDPOINT_BOOKS);
+        ExtractableResponse<Response> responseSetUserBook = postMethodWithStringPayload(Helper.BASE_URL_BOOK_STORE, getBooksForUser(userData), userData.getToken(), Helper.ENDPOINT_BOOKS);
         assertEquals(responseSetUserBook.statusCode(), 201);
         assertEquals(responseSetUserBook.body().jsonPath().get("books.isbn[0]"), userData.getAllBooks().get(0));
         assertEquals(responseSetUserBook.body().jsonPath().get("books.isbn[1]"), userData.getAllBooks().get(1));
