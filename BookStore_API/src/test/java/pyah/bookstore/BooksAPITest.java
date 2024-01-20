@@ -27,7 +27,7 @@ public class BooksAPITest extends BaseTest {
     @Test
     void booksAPITest() throws JSONException {
 
-    // POST createUser
+    // POST createUser with JSON Schema validation
 
         String pathForNewUser = "src/test/resources/newUserCreatedSchema.json";
         ExtractableResponse<Response> responseNewUser = postMethod(Helper.BASE_URL_ACCOUNT, userData, null, Helper.ENDPOINT_CREATE_USER);
@@ -49,7 +49,7 @@ public class BooksAPITest extends BaseTest {
 
         userData.setToken(responseToken.body().jsonPath().getString("token"));
 
-    // POST userLogin
+    // POST userLogin with JSON response comparison
 
         ExtractableResponse<Response> responseLogin = postMethod(Helper.BASE_URL_ACCOUNT, userData, userData.getToken(), Helper.ENDPOINT_LOGIN);
         assertEquals(responseLogin.statusCode(), 200);
@@ -84,7 +84,7 @@ public class BooksAPITest extends BaseTest {
         assertEquals(responseUserById.body().jsonPath().get("userId"), userData.getUserID());
         assertEquals(responseUserById.body().jsonPath().get("username"), userData.getUserName());
 
-    // GET getAllBooks
+    // GET getAllBooks with JSON Schema validation using separate method
 
         String path = "src/test/resources/allBooksSchema.json";
         assertTrue(validationJSONSchema(Helper.BASE_URL_BOOK_STORE, null, Helper.ENDPOINT_BOOKS, path));
