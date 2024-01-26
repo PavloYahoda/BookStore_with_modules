@@ -7,23 +7,19 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>BookStore_UI</artifactId>
+    <artifactId>Utils</artifactId>
+    <groupId>pyah.bookstore</groupId>
     <packaging>jar</packaging>
 
-    <name>BookStore_UI</name>
+    <name>Utils</name>
     <url>http://maven.apache.org</url>
-
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
     <dependencies>
-        <dependency>
-            <groupId>pyah.bookstore</groupId>
-            <artifactId>Utils</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
 
     </dependencies>
+
 </project>

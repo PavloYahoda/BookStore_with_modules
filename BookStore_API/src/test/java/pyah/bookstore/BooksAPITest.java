@@ -22,7 +22,7 @@ import static pyah.bookstore.JSONConstructor.getBooksForUser;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 
 public class BooksAPITest extends BaseTest {
-    UserData userData = new UserData(Helper.randomFullName(), Helper.PASSWORD);
+    UserData userData = new UserData(Helper.randomFullName(), HelperForEveryone.PASSWORD);
 
     @Test
     void booksAPITest() throws JSONException {
