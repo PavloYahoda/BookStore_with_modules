@@ -8,9 +8,7 @@
     </parent>
 
     <artifactId>Utils</artifactId>
-    <groupId>pyah.bookstore</groupId>
     <packaging>jar</packaging>
-
     <name>Utils</name>
     <url>http://maven.apache.org</url>
 
@@ -19,7 +17,11 @@
     </properties>
 
     <dependencies>
-
+        <dependency>
+            <groupId>com.github.javafaker</groupId>
+            <artifactId>javafaker</artifactId>
+            <version>0.12</version>
+        </dependency>
     </dependencies>
 
 </project>
