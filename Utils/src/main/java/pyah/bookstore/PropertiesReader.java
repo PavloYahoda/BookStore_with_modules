@@ -29,4 +29,14 @@ public class PropertiesReader {
             e.printStackTrace();
         } return "";
     }
+
+    public static String getMainProperty(String key){
+        try (InputStream inputStream = Files.newInputStream(Paths.get("/Users/pyah/Documents/JAVA/BookStore_with_modules/Utils/src/resources/main.properties"))) {
+            Properties properties = new Properties();
+            properties.load(inputStream);
+            return properties.getProperty(key);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } return "";
+    }
 }

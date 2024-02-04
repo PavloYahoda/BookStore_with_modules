@@ -19,7 +19,7 @@
     <dependencies>
         <dependency>
             <groupId>pyah.bookstore</groupId>
-            <artifactId>BookStore_UI</artifactId>
+            <artifactId>Utils</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
         <dependency>
