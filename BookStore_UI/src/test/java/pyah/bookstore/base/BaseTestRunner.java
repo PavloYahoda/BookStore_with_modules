@@ -21,8 +21,11 @@ public class BaseTestRunner {
     public Page page;
     @TestPage
     public HomePage homePage;
+    @TestPage
     public BooksPage booksPage;
+    @TestPage
     public LoginPage loginPage;
+    @TestPage
     public RegisterPage registerPage;
 
     @BeforeAll
