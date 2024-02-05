@@ -8,7 +8,7 @@ public class LoginPage {
     private final Page loginPage;
     private final Locator newUserButton;
 
-    public LoginPage(Page loginPage, Locator newUserButton) {
+    public LoginPage(Page loginPage) {
         this.loginPage = loginPage;
         this.newUserButton = loginPage.getByText("New User");
     }

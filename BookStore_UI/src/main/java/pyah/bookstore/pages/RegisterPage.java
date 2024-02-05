@@ -14,7 +14,7 @@ public class RegisterPage {
     private final Locator registerButton;
 
 
-    public RegisterPage(Page registerPage, Locator firstName, Locator lastName, Locator userName, Locator password, Locator checkboxNotRobot, Locator registerButton) {
+    public RegisterPage(Page registerPage) {
         this.registerPage = registerPage;
         this.firstName = registerPage.locator("#firstname");
         this.lastName = registerPage.locator("#lastname");
@@ -30,7 +30,7 @@ public class RegisterPage {
         lastName.fill("Gaspar");
         userName.fill("johngaspar");
         password.fill("Admin123!");
-        checkboxNotRobot.setChecked(true);
+        checkboxNotRobot.click();
         Thread.sleep(3000);
         registerButton.click();
     }

@@ -35,7 +35,8 @@ public class BaseTestRunner {
     @BeforeEach
     void createContextAndPage(){
         browser = playwright.chromium().launch(new BrowserType.LaunchOptions().setHeadless(false));
-        browserContext = browser.newContext(new Browser.NewContextOptions().setViewportSize(1920,1080));
+//        browserContext = browser.newContext(new Browser.NewContextOptions().setViewportSize(1920,1080));
+        browserContext = browser.newContext();
         page = browserContext.newPage();
         initPage(this, page);
     }
@@ -48,7 +49,7 @@ public class BaseTestRunner {
                 try {
                     field.set(this, field.getType().getConstructor(type).newInstance(page));
                 } catch(NoSuchMethodException | InvocationTargetException | InstantiationException | IllegalAccessException exception){
-                    System.out.println("Cannot find constructor for called page" + field.getName());
+                    System.out.println("Cannot find constructor for called page: " + field.getName());
                 }
             }
         }
