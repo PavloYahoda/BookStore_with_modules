@@ -4,8 +4,6 @@ import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.*;
 import com.microsoft.playwright.options.LoadState;
 
-import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
-
 
 public class BooksPage {
     private final Page booksPage;
@@ -20,7 +18,6 @@ public class BooksPage {
     public BooksPage(Page booksPage) {
         this.booksPage = booksPage;
         this.loginButton = booksPage.locator("#login");
-
         this.nextButton = booksPage.locator("//button[text()='Next']");
         this.previousButton = booksPage.locator("//button[text()='Previous']");
         this.rowsPerPage = booksPage.locator("//select[@aria-label='rows per page']");

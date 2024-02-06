@@ -21,6 +21,7 @@ public class HomePage {
     public void openUrl(){
         homePage.navigate(getMainProperty("baseUrl"));
     }
+    public void navigateToProfilePage(){homePage.navigate(getMainProperty("profile"));}
 
     public void clickTileBookStore(){
         homePage.waitForLoadState(LoadState.DOMCONTENTLOADED);

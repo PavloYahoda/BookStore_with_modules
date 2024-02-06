@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class FirstTestPagination extends BaseTestRunner {
     @Test
-    public void paginationTest(){
+    void paginationTest(){
         homePage.openUrl();
         homePage.clickTileBookStore();
 

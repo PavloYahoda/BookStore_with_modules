@@ -6,10 +6,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import pyah.bookstore.annotations.TestPage;
-import pyah.bookstore.pages.BooksPage;
-import pyah.bookstore.pages.HomePage;
-import pyah.bookstore.pages.LoginPage;
-import pyah.bookstore.pages.RegisterPage;
+import pyah.bookstore.pages.*;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -27,6 +24,8 @@ public class BaseTestRunner {
     public LoginPage loginPage;
     @TestPage
     public RegisterPage registerPage;
+    @TestPage
+    public ProfilePage profilePage;
 
     @BeforeAll
     static void launchBrowser(){
