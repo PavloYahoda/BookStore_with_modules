@@ -41,6 +41,7 @@ public class RegisterPage {
         lastName.fill(getMainProperty("lastName"));
         userName.fill(getMainProperty("userName"));
         password.fill(getMainProperty("password"));
+        Thread.sleep(1000);
         checkboxNotRobot.locator(".recaptcha-checkbox-border").click();
 
         registerPage.onDialog(dialog -> {
