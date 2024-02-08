@@ -12,6 +12,7 @@ public class LoginPage {
     private final Locator loginButton;
     private final Locator userName;
     private final Locator password;
+    private final Locator errorMessage;
 
 
     public LoginPage(Page loginPage) {
@@ -20,6 +21,7 @@ public class LoginPage {
         this.loginButton = loginPage.locator("#login");
         this.userName = loginPage.locator("#userName");
         this.password = loginPage.locator("#password");
+        this.errorMessage = loginPage.locator("//p[@id='name']");
     }
 
     public void goToRegisterPage(){
@@ -28,8 +30,21 @@ public class LoginPage {
     }
 
     public void login(){
+        loginPage.waitForLoadState(LoadState.DOMCONTENTLOADED);
         userName.fill(getMainProperty("userName"));
         password.fill(getMainProperty("password"));
         loginButton.click();
+    }
+
+    public void loginAsTestUser(){
+        loginPage.waitForLoadState(LoadState.DOMCONTENTLOADED);
+        userName.fill(getMainProperty("testUserName"));
+        password.fill(getMainProperty("password"));
+        loginButton.click();
+    }
+
+    public String getErrorMessage(){
+        loginPage.waitForLoadState(LoadState.DOMCONTENTLOADED);
+        return errorMessage.textContent();
     }
 }

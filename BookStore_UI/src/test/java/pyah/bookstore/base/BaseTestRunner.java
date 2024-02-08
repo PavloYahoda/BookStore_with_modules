@@ -1,10 +1,7 @@
 package pyah.bookstore.base;
 
 import com.microsoft.playwright.*;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.*;
 import pyah.bookstore.annotations.TestPage;
 import pyah.bookstore.pages.*;
 
@@ -26,6 +23,9 @@ public class BaseTestRunner {
     public RegisterPage registerPage;
     @TestPage
     public ProfilePage profilePage;
+    @TestPage
+    public TestBookPage testBookPage;
+
 
     @BeforeAll
     static void launchBrowser(){

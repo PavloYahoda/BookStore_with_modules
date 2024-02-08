@@ -13,6 +13,7 @@ public class BooksPage {
     private final Locator rowsPerPage;
     private final Locator currentPage;
     private final Locator totalPages;
+    private final Locator testBook;
 
 
     public BooksPage(Page booksPage) {
@@ -23,6 +24,7 @@ public class BooksPage {
         this.rowsPerPage = booksPage.locator("//select[@aria-label='rows per page']");
         this.currentPage = booksPage.locator("//input[@aria-label='jump to page']");
         this.totalPages = booksPage.locator("//span[@class='-totalPages']");
+        this.testBook = booksPage.getByText("Speaking JavaScript");
     }
 
     public void goToLoginPage(){
@@ -73,6 +75,9 @@ public class BooksPage {
     }
     public void clickPreviousPage(){
         previousButton.click();
+    }
+    public void openTestBookPage(){
+        testBook.click();
     }
 
 }
