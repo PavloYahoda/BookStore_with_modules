@@ -46,7 +46,7 @@ public class RegisterPage {
         Thread.sleep(1000);
         registerPage.onceDialog(dialog -> {
             assertEquals("alert", dialog.type());
-//            assertEquals("User Register Successfully.", dialog.message());
+            assertEquals("User Register Successfully.", dialog.message());
             dialog.accept();
         });
         registerButton.click();
