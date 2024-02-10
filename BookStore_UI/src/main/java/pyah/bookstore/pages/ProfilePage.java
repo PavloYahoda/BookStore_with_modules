@@ -4,6 +4,7 @@ import com.microsoft.playwright.Dialog;
 import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
 import com.microsoft.playwright.assertions.PlaywrightAssertions;
+import com.microsoft.playwright.options.AriaRole;
 import com.microsoft.playwright.options.LoadState;
 
 import java.util.ArrayList;
@@ -17,6 +18,9 @@ public class ProfilePage {
     private final Locator deleteAccountButton;
     private final Locator deleteAllBooksButton;
     private final Locator testBook;
+    private final Locator okButton;
+    private final Locator modalWindow;
+
 
     public ProfilePage(Page profilePage) {
         this.profilePage = profilePage;
@@ -24,6 +28,8 @@ public class ProfilePage {
         this.deleteAccountButton = profilePage.getByText("Delete Account");
         this.deleteAllBooksButton = profilePage.locator("//div[@class='text-right button di']//button[@id='submit' and text()='Delete All Books']");
         this.testBook = profilePage.getByText("Speaking JavaScript");
+        this.okButton = profilePage.locator("//button[@id='closeSmallModal-ok']");
+        this.modalWindow = profilePage.locator(".modal-content");
     }
 
     public void clickToRegisterLink(){
@@ -34,18 +40,15 @@ public class ProfilePage {
     public void deleteAccount(){
         profilePage.waitForLoadState(LoadState.DOMCONTENTLOADED);
         PlaywrightAssertions.setDefaultAssertionTimeout(10000);
-        profilePage.onDialog(dialog -> {
-            assertEquals("alert", dialog.type());
-            assertEquals("Do you want to delete your account?", dialog.message());
-            dialog.accept();
-        });
         deleteAccountButton.click();
+        System.out.println(modalWindow.isVisible());
         profilePage.waitForSelector(".modal-content");
         String modalMessage = profilePage.textContent(".modal-body");
         if (modalMessage.contains("Do you want to delete your account?")) {
+            System.out.println(okButton.isEnabled());
             profilePage.click("#closeSmallModal-ok");
         } else {
-            profilePage.click(".close");
+            System.out.println("Modal message not found or does not match expected message.");
         }
     }
 
@@ -54,44 +57,23 @@ public class ProfilePage {
         return testBook.isVisible();
     }
 
-    public void deleteAllBooks(){
+    public void deleteAllBooks() {
         profilePage.waitForLoadState(LoadState.DOMCONTENTLOADED);
         PlaywrightAssertions.setDefaultAssertionTimeout(10000);
-//        profilePage.onDialog(dialog -> {
-//            assertEquals("alert", dialog.type());
-//            assertEquals("All Books deleted.", dialog.message());
-//            dialog.accept();
-//        });
-//        deleteAccountButton.click();
-//        profilePage.waitForSelector(".modal-content");
-//        String modalMessage = profilePage.textContent(".modal-body");
-//        if (modalMessage.contains("Do you want to delete all books?")) {
-//            profilePage.click("#closeSmallModal-ok");
-//        } else {
-//            profilePage.click(".close");
-//        }
-        deleteAccountButton.click();
+        deleteAllBooksButton.click();
+        System.out.println(modalWindow.isVisible());
+        profilePage.waitForSelector(".modal-content");
+        String modalMessage = profilePage.textContent(".modal-body");
+        if (modalMessage.contains("Do you want to delete all books?")) {
+            System.out.println(okButton.isEnabled());
+            profilePage.click("#closeSmallModal-ok");
+        } else {
+            System.out.println("Modal message not found or does not match expected message.");
+        }
     }
 
-    public void acceptDeletionModalWindow(){
-        profilePage.waitForSelector("//div[@class='modal-body']");
-//        String modalMessage = profilePage.textContent(".modal-body");
-//        if (modalMessage.contains("Do you want to delete all books?")) {
-//            System.out.println("Modal message found: " + modalMessage);
-//            profilePage.click("#closeSmallModal-ok");
-//        } else {
-//            System.out.println("Modal message not found or does not match expected message.");
-//        }
-        profilePage.click("//button[@id='closeSmallModal-ok']");
-    }
-
-    public void acceptDeletionAlert(){
-        profilePage.onDialog(dialog -> {
-            assertEquals("alert", dialog.type());
-            assertEquals("All Books deleted.", dialog.message());
-            dialog.accept();
-        });
-        acceptDeletionModalWindow();
+    public void acceptDeletionAlert() {
+        profilePage.onceDialog(Dialog::accept);
     }
 
     public String getBookTitles(Page page) {

@@ -28,6 +28,8 @@ public class SecondTestCreateDeleteUser extends BaseTestRunner {
         assertThat(page).hasURL(Pattern.compile(".*/profile"));
         Thread.sleep(2000);
         profilePage.deleteAccount();
+        profilePage.acceptDeletionAlert();
+        Thread.sleep(2000);
         assertThat(page).hasURL(Pattern.compile(".*/login"));
         Thread.sleep(2000);
         loginPage.login();
